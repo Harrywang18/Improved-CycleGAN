@@ -17,7 +17,7 @@ Class for CycleGAN with train() as a member function
 '''
 class cycleGAN(object):
     def __init__(self,args):
-
+        print(args.no_dropout)
         # Define the network 
         #####################################################
         self.Gab = define_Gen(input_nc=3, output_nc=3, ngf=args.ngf, netG=args.gen_net, norm=args.norm, 
@@ -76,9 +76,11 @@ class cycleGAN(object):
 
         # Pytorch dataloader
         a_loader = torch.utils.data.DataLoader(dsets.ImageFolder(dataset_dirs['trainA'], transform=transform), 
-                                                        batch_size=args.batch_size, shuffle=True, num_workers=4)
+                                                        batch_size=args.batch_size, shuffle=True, num_workers=4,
+                                                        drop_last=True)
         b_loader = torch.utils.data.DataLoader(dsets.ImageFolder(dataset_dirs['trainB'], transform=transform), 
-                                                        batch_size=args.batch_size, shuffle=True, num_workers=4)
+                                                        batch_size=args.batch_size, shuffle=True, num_workers=4,
+                                                        drop_last=True)
 
         a_fake_sample = utils.Sample_from_Pool()
         b_fake_sample = utils.Sample_from_Pool()
